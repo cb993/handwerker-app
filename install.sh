@@ -151,8 +151,8 @@ if [ ! -d "$APP_DIR/src" ]; then
   "description": "Progressive Web App für Handwerker",
   "private": true,
   "dependencies": {
-    "react": "^18.2.0",
-    "react-dom": "^18.2.0",
+    "react": "^17.0.2",
+    "react-dom": "^17.0.2",
     "react-router-dom": "^6.8.1",
     "react-scripts": "5.0.1",
     "idb": "^7.1.1",
@@ -208,27 +208,47 @@ EOF
 </html>
 EOF
 
-    # Basic React App erstellen
+    # Basic React App erstellen (React 17 Syntax)
     cat > $APP_DIR/src/index.js << 'EOF'
 import React from 'react';
-import ReactDOM from 'react-dom/client';
+import ReactDOM from 'react-dom';
 import './index.css';
 
 const App = () => {
   return (
-    <div style={{ padding: '20px', textAlign: 'center' }}>
-      <h1>Handwerker PWA</h1>
-      <p>Installation erfolgreich!</p>
-      <p>Die App läuft auf Port 3000</p>
+    <div style={{ padding: '20px', textAlign: 'center', fontFamily: 'Arial, sans-serif' }}>
+      <h1 style={{ color: '#2563eb', marginBottom: '20px' }}>🔧 Handwerker PWA</h1>
+      <div style={{ backgroundColor: '#f8fafc', padding: '20px', borderRadius: '8px', marginBottom: '20px' }}>
+        <h2 style={{ color: '#1e293b', marginBottom: '10px' }}>✅ Installation erfolgreich!</h2>
+        <p style={{ color: '#64748b', marginBottom: '10px' }}>Die Progressive Web App läuft erfolgreich.</p>
+        <p style={{ color: '#64748b' }}>Frontend: React 17 mit Create React App</p>
+        <p style={{ color: '#64748b' }}>Backend: Node.js mit Express</p>
+        <p style={{ color: '#64748b' }}>Datenbank: MongoDB</p>
+        <p style={{ color: '#64748b' }}>Proxy: Nginx</p>
+        <p style={{ color: '#64748b' }}>Process Manager: PM2</p>
+      </div>
+      <div style={{ backgroundColor: '#dbeafe', padding: '15px', borderRadius: '8px' }}>
+        <h3 style={{ color: '#1d4ed8', marginBottom: '10px' }}>🚀 Nächste Schritte:</h3>
+        <ul style={{ textAlign: 'left', color: '#1e40af' }}>
+          <li>App im Browser testen: <code style={{ backgroundColor: '#f3f4f6', padding: '2px 6px', borderRadius: '4px' }}>http://<container-ip></code></li>
+          <li>PWA-Features testen (Installieren, Offline)</li>
+          <li>Eigene React-Komponenten hinzufügen</li>
+          <li>Backend-API erweitern</li>
+        </ul>
+      </div>
+      <div style={{ marginTop: '30px', fontSize: '14px', color: '#6b7280' }}>
+        <p>📱 Diese App kann als PWA installiert werden!</p>
+        <p>🔧 Voll funktionsfähig im Offline-Modus</p>
+      </div>
     </div>
   );
 };
 
-const root = ReactDOM.createRoot(document.getElementById('root'));
-root.render(
+ReactDOM.render(
   <React.StrictMode>
     <App />
-  </React.StrictMode>
+  </React.StrictMode>,
+  document.getElementById('root')
 );
 EOF
 
