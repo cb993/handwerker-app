@@ -134,30 +134,131 @@ log "Schritt 6: Anwendung部署..."
 # Hinweis: In echter Umgebung hier das Git Repository klonen
 # git clone https://github.com/your-repo/handwerker-pwa.git $APP_DIR
 
-# Für Demo-Zwecke: Erstellen einer einfachen package.json wenn nicht vorhanden
-if [ ! -f "$APP_DIR/package.json" ]; then
-    info "Erstelle Demo package.json..."
-    cat > $APP_DIR/package.json << 'EOF'
+# Für Demo-Zwecke: Erstellen der React-App-Struktur
+if [ ! -d "$APP_DIR/src" ]; then
+    info "Erstelle React-App-Struktur..."
+    
+    # Verzeichnisse erstellen
+    mkdir -p $APP_DIR/src/{components,pages,contexts,assets}
+    mkdir -p $APP_DIR/public
+    
+    # package.json erstellen (falls nicht vorhanden)
+    if [ ! -f "$APP_DIR/package.json" ]; then
+        cat > $APP_DIR/package.json << 'EOF'
 {
   "name": "handwerker-pwa",
   "version": "1.0.0",
   "description": "Progressive Web App für Handwerker",
-  "main": "server.js",
-  "scripts": {
-    "start": "node server.js",
-    "dev": "react-scripts start",
-    "build": "react-scripts build",
-    "serve": "serve -s build -l 3000"
-  },
+  "private": true,
   "dependencies": {
-    "express": "^4.18.2",
-    "cors": "^2.8.5",
-    "mongoose": "^7.5.0",
-    "serve": "^14.2.1"
+    "react": "^18.2.0",
+    "react-dom": "^18.2.0",
+    "react-router-dom": "^6.8.1",
+    "react-scripts": "5.0.1",
+    "idb": "^7.1.1",
+    "lucide-react": "^0.323.0",
+    "tailwindcss": "^3.2.7",
+    "autoprefixer": "^10.4.14",
+    "postcss": "^8.4.21"
   },
-  "devDependencies": {
-    "react-scripts": "5.0.1"
+  "scripts": {
+    "start": "react-scripts start",
+    "build": "react-scripts build",
+    "test": "react-scripts test",
+    "eject": "react-scripts eject"
+  },
+  "eslintConfig": {
+    "extends": [
+      "react-app",
+      "react-app/jest"
+    ]
+  },
+  "browserslist": {
+    "production": [
+      ">0.2%",
+      "not dead",
+      "not op_mini all"
+    ],
+    "development": [
+      "last 1 chrome version",
+      "last 1 firefox version",
+      "last 1 safari version"
+    ]
   }
+}
+EOF
+    fi
+
+    # index.html erstellen
+    cat > $APP_DIR/public/index.html << 'EOF'
+<!DOCTYPE html>
+<html lang="de">
+<head>
+    <meta charset="utf-8" />
+    <link rel="icon" href="%PUBLIC_URL%/favicon.ico" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="theme-color" content="#000000" />
+    <meta name="description" content="Handwerker PWA" />
+    <title>Handwerker PWA</title>
+</head>
+<body>
+    <noscript>Sie benötigen JavaScript um diese App zu nutzen.</noscript>
+    <div id="root"></div>
+</body>
+</html>
+EOF
+
+    # Basic React App erstellen
+    cat > $APP_DIR/src/index.js << 'EOF'
+import React from 'react';
+import ReactDOM from 'react-dom/client';
+import './index.css';
+
+const App = () => {
+  return (
+    <div style={{ padding: '20px', textAlign: 'center' }}>
+      <h1>Handwerker PWA</h1>
+      <p>Installation erfolgreich!</p>
+      <p>Die App läuft auf Port 3000</p>
+    </div>
+  );
+};
+
+const root = ReactDOM.createRoot(document.getElementById('root'));
+root.render(
+  <React.StrictMode>
+    <App />
+  </React.StrictMode>
+);
+EOF
+
+    # index.css erstellen
+    cat > $APP_DIR/src/index.css << 'EOF'
+body {
+  margin: 0;
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
+    'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue',
+    sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+code {
+  font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
+    monospace;
+}
+EOF
+
+    # manifest.json erstellen
+    cat > $APP_DIR/public/manifest.json << 'EOF'
+{
+  "short_name": "Handwerker PWA",
+  "name": "Handwerker Progressive Web App",
+  "icons": [],
+  "start_url": ".",
+  "display": "standalone",
+  "theme_color": "#000000",
+  "background_color": "#ffffff"
 }
 EOF
 fi
