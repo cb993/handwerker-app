@@ -81,8 +81,7 @@ apt install -y \
     nginx \
     certbot \
     python3-certbot-nginx \
-    sqlite3 \
-    pm2
+    sqlite3
 check_status "Grundlegende Abhängigkeiten"
 
 # 3. Node.js LTS installieren
@@ -98,6 +97,11 @@ NODE_VER=$(node --version)
 info "Installierte Node.js Version: $NODE_VER"
 NPM_VER=$(npm --version)
 info "Installierte NPM Version: $NPM_VER"
+
+# PM2 global installieren
+log "PM2 über NPM installieren..."
+npm install -g pm2
+check_status "PM2 Installation"
 
 # 4. MongoDB installieren (Alternative zu Firebase)
 log "Schritt 4: MongoDB installieren..."
